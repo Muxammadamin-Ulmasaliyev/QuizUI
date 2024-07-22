@@ -1,0 +1,15 @@
+<app-users-table [users]="users" [totalRecords]="totalRecords" [pageSize]="pageSize" [pageNumber]="pageNumber"
+  (pageChanged)="handlePageChange($event)" (sortTable)="handleTableSorting($event)"
+  (dialogOpen)="handleDialogOpen($event)" (deleteUser)="handleUserDeletion($event)">
+</app-users-table>
+
+<app-user-dialog [newUser]="newUser" [displayDialog]="displayDialog" (onHideDialog)="onHideDialog()"
+  (saveUser)="upsertUser($event)">
+</app-user-dialog>
+
+<app-line-chart (dropDownChanged)="handleStatisticsDropDownChange($event)" [chartData]="chartData"
+  [availableYears]="availableYears">
+
+</app-line-chart>
+
+<p-toast position="bottom-right"></p-toast>

@@ -1,0 +1,34 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+  <div class="flex flex-column align-items-center justify-content-center">
+    <div style="
+        border-radius: 56px;
+        padding: 0.3rem;
+        background: linear-gradient(
+          180deg,
+          var(--primary-color) 10%,
+          rgba(33, 150, 243, 0) 30%
+        );
+      ">
+      <div class="w-full surface-card py-4 px-2 sm:px-6" style="border-radius: 53px">
+        <div class="text-center mb-3">
+          <div class="text-900 text-3xl font-medium mb-3">
+            Email Confirmation
+          </div>
+          <span class="text-600 font-medium">Please confirm your email</span>
+        </div>
+
+        <div>
+          <div class=" flex flex-column justify-content-center">
+            <p-inputOtp [integerOnly]="true" [length]="6" [(ngModel)]="codeByUser" style="padding: 1rem"
+              class="w-full md:w-30rem mb-5" />
+          </div>
+
+          <button pButton pRipple label="Confirm Email" class="w-full p-3 text-lg" (click)="confirmEmail()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button (click)="test()"> CLICK </button>
+<p-toast position="top-right"></p-toast>
+<!-- app.component.html -->

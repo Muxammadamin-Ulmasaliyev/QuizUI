@@ -1,0 +1,98 @@
+<div [ngStyle]="{'color': timeLeft < 60 ? 'red' : ''}" class="timer text-center mt-3">
+  <span class="pi pi-clock" style="font-size: 1.5em; margin-right: 0.5em;"></span>
+  <span class="text-3xl">{{ formatTime(timeLeft) }}</span>
+</div>
+<div class="flex flex-row justify-content-center pt-3">
+
+  <p-buttonGroup>
+    <button pButton (click)="showPreviousQuestion()" [disabled]="isPreviousButtonDisabled()" icon="pi pi-angle-left"
+      severity="primary" [raised]="true"></button>
+
+    @for(question of quiz.questions; track question.id; let index = $index ){
+    <button pButton (click)="showQuestion(index)" label="{{index + 1}}" severity="primary" [raised]="true"
+      [outlined]="true" [disabled]="isQuestionVisitedOnce(index)"
+      [ngStyle]="{'background-color': currentIndex === index ? '#6a5de3' : '', 'color': currentIndex === index ? '#fff' : ''}">
+    </button>
+    }@empty{
+
+    }
+    <button pButton (click)="showNextQuestion()" severity="primary" [raised]="true" [disabled]="isNextButtonDisabled()"
+      icon="pi pi-angle-right"></button>
+
+  </p-buttonGroup>
+
+</div>
+
+
+<div class="flex flex-column mt-6 mb-6 text-center" style="width: 75%; margin: 0 auto;">
+  <!-- Question Text Card -->
+  <div class="flex-auto justify-content-center">
+    <div class="p-card">
+      <div class="p-card-header mt-1 text-2xl">
+        Question {{currentIndex + 1}}
+      </div>
+      <div class="p-card-body text-2xl" style="min-height: 100px;">
+        {{this.currentQuestion.text}}
+      </div>
+    </div>
+  </div>
+
+  <!-- Answers Card Group -->
+  <div>
+    <div class="flex flex-wrap justify-content-center mt-6">
+      <!-- Loop through answers -->
+
+      <div class="flex flex-wrap justify-content-evenly gap-4">
+        @for(answer of currentQuestion.answers; track answer.id; let answerIndex = $index){
+        <div class="flex flex-row gap-2">
+
+          @if(currentQuestion.isMultipleChoice){
+          <p-checkbox name="answerCheckboxGroup" [binary]="true"
+            [(ngModel)]="selectedCheckBoxAnswers[currentIndex][answerIndex]" [value]="true"
+            (onChange)="checkBoxSelectionChanged($event, answer)" />
+          <div
+            [ngStyle]="{'background-color':  selectedCheckBoxAnswers[currentIndex][answerIndex] ? 'var(--primary-color)' : '', 'color': selectedCheckBoxAnswers[currentIndex][answerIndex] ?  'var(--primary-color-text)' : ''}"
+            class="p-card hover:bg-primary transition-duration-200 transition-linear" style="min-width: 300px;">
+
+            <div class="p-card-body text-lg">
+              <h5>{{ answer.text  }}</h5>
+            </div>
+          </div>
+
+          }@else {
+
+          <p-radioButton name="answerRadioGroup" [(ngModel)]="selectedRadioButtonAnswers[currentIndex]"
+            (onClick)="radioButtonSelectionChanged($event)" [value]="answerIndex"></p-radioButton>
+
+          <div
+            [ngStyle]="{'background-color':  selectedRadioButtonAnswers[currentIndex] === answerIndex ? 'var(--primary-color)' : '', 'color': selectedRadioButtonAnswers[currentIndex] === answerIndex  ?  'var(--primary-color-text)' : ''}"
+            class="p-card hover:bg-primary transition-duration-200 transition-linear" style="min-width: 300px;">
+
+            <div class="p-card-body text-lg">
+              <h5>{{ answer.text  }}</h5>
+            </div>
+          </div>
+          }
+        </div>
+        }@empty {
+        }
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="flex flex-row justify-content-between ml-6 mr-6">
+  <button pButton (click)="showConfirmationDialog()" severity="danger" label="End quiz" [raised]="true"
+    icon="pi pi-check"></button>
+  <button pButton (click)="showNextQuestion()" icon="pi pi-arrow-right" [disabled]="isNextButtonDisabled()"
+    severity="primary" label="Next" [raised]="true"></button>
+</div>
+
+
+
+
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

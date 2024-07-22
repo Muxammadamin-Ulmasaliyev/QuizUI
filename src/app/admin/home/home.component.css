@@ -1,0 +1,17 @@
+.tab-menu-container {
+    display: flex;
+    align-items: center;
+}
+
+.tab-menu-container p-tabMenu {
+    flex-grow: 1;
+}
+
+.button-container {
+    margin-left: 1rem; /* Adjust spacing as needed */
+}
+
+.active{
+    color: red;
+    background-color: rebeccapurple;
+}

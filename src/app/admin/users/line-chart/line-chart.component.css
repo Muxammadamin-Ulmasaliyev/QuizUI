@@ -1,0 +1,10 @@
+.card {
+    padding: 1rem;
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+  }
+  

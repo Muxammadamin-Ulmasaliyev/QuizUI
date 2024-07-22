@@ -1,0 +1,106 @@
+<p-table
+  #table
+  [value]="users"
+  dataKey="id"
+  [(selection)]="selectedUsers"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [globalFilterFields]="['username']"
+  [lazy]="true"
+  sortMode="single"
+  (onLazyLoad)="onSorted($event)"
+  
+>
+  <ng-template pTemplate="caption">
+    <div class="grid">
+      <div class="col gap-2 flex justify-content-start flex-wrap">
+        <p-button
+          label="Clear"
+          [outlined]="true"
+          icon="pi pi-filter-slash"
+          (click)="clearTableFilter(table)"
+        />
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="searchValue"
+            (input)="table.filterGlobal(searchValue, 'contains')"
+            placeholder="Search keyword"
+          />
+        </span>
+      </div>
+      <div class="col gap-2 flex justify-content-end flex-wrap">
+        <p-button
+          [disabled]="!(selectedUsers && selectedUsers.length > 0)"
+          label="Delete"
+          severity="danger"
+          icon="pi pi-trash"
+          (onClick)="showConfirmationDialogForDeletion()"
+        />
+        <p-button
+          label="Add User"
+          severity="success"
+          icon="pi pi-plus"
+          (onClick)="showAddNewUserDialog()"
+        />
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+      <th pSortableColumn="userName">
+        Username <p-sortIcon field="userName" />
+      </th>
+      <th pSortableColumn="phoneNumber">
+        Phone number<p-sortIcon field="phoneNumber" />
+      </th>
+      <th pSortableColumn="email">Email <p-sortIcon field="email" /></th>
+      <th pSortableColumn="emailConfirmed">
+        Email Confirmed<p-sortIcon field="emailConfirmed" />
+      </th>
+      <th>Role</th>
+      <th pSortableColumn="createdAt">
+        Created At <p-sortIcon field="createdAt" />
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>
+        
+        <p-tableCheckbox [disabled]="user.roles == 'SuperAdmin'" [value]="user" />
+      </td>
+      <td>{{ user.userName }}</td>
+      <td>{{ user.phoneNumber }}</td>
+      <td>{{ user.email }}</td>
+
+      <td>
+        @if(user.emailConfirmed) {
+
+        <p-tag
+          icon="pi pi-check"
+          [severity]="getUserEmailConfirmedSeverity(user.emailConfirmed)"
+          value="Verified"
+        />
+        } @else {
+        <p-tag
+          icon="pi pi-times"
+          [severity]="getUserEmailConfirmedSeverity(user.emailConfirmed)"
+          value="Not Verified"
+        />
+        }
+      </td>
+      <td>{{ user.roles }}</td>
+      <td>{{ user.createdAt | date : "dd/MM/yyyy" }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-paginator
+  [rows]="pageSize"
+  [totalRecords]="totalRecords"
+  (onPageChange)="onPageChange($event)"
+  [rowsPerPageOptions]="[5, 10, 20, 30]"
+></p-paginator>
+<p-confirmDialog> </p-confirmDialog>

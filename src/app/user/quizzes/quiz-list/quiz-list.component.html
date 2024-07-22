@@ -1,0 +1,15 @@
+
+  <div class="flex flex-row flex-wrap justify-content-evenly">
+    @for(quiz of quizzesList; track quiz.id){
+  
+    <app-quiz-card [quiz]="quiz" (startQuiz)="handleStartQuiz($event)">
+    </app-quiz-card> 
+    }
+  </div>
+  
+
+
+  
+  <p-confirmDialog></p-confirmDialog>
+  
+  <p-toast></p-toast>

@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="tab-menu-container">
+    <p-tabMenu [model]="links">
+      <ng-template pTemplate="link" let-link>
+        @if(links) {
+        <ng-container>
+          <a [routerLink]="link.route" class="p-menuitem-link">
+            <span [class]="link.icon"></span>
+            <span class="ml-2">
+              {{ link.label }}
+            </span>
+          </a>
+        </ng-container>
+        }@else { }
+      </ng-template>
+    </p-tabMenu>
+    <div class="button-container mr-4">
+      <p-button [outlined]="true" pTooltip="log out" (onClick)="onLogout()" icon="pi pi-sign-out" severity="danger"
+        [rounded]="true">
+      </p-button>
+
+    </div>
+  </div>
+</div>
+<main>
+  <router-outlet></router-outlet>
+</main>

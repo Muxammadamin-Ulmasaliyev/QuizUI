@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="flex flex-column">
+
+    <div class="tab-menu-container">
+      <p-tabMenu [model]="links">
+        <ng-template pTemplate="link" let-link>
+          <ng-container *ngIf="links">
+            <a [routerLink]="link.route" class="p-menuitem-link">
+              <span [class]="link.icon"></span>
+              <span class="ml-2">
+                {{ link.label }}
+              </span>
+            </a>
+          </ng-container>
+        </ng-template>
+      </p-tabMenu>
+      <div class="button-container mr-4">
+        <p-avatar icon="pi pi-user cursor-pointer" size="large" shape="circle" (click)="handleClickProfileImage()">
+        </p-avatar>
+      </div>
+    </div>
+    <!-- <div class="quote text-center">
+      <blockquote>
+        <p>{{quoteModel.q}}</p>
+        <cite>{{quoteModel.a}}</cite>
+      </blockquote>
+    </div> -->
+  </div>
+</div>
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<p-sidebar [(visible)]="sidebarVisible" position="right" [baseZIndex]="10000">
+  <div class="p-grid p-nogutter p-align-center p-justify-center p-m-2">
+    <div class="p-col-12 p-text-center">
+      <h2 class="user-name p-text-bold p-mt-2">{{user.userName}}</h2>
+    </div>
+    <div class="p-col-12">
+      <ul class="p-list p-list-divided">
+        <li class="p-mb-2">
+          <i class="pi pi-envelope p-mr-2"></i> {{user.email}}
+        </li>
+
+        <li class="p-mb-2">
+          <i class="pi pi-clock p-mr-2"></i> {{user.createdAt | date : "dd/MM/yyyy"}}
+        </li>
+      </ul>
+    </div>
+    <div class="mt-5 text-right text-bottom">
+      <p-button label="Log Out" icon="pi pi-sign-out" (onClick)="logout()" severity="danger"></p-button>
+    </div>
+  </div>
+</p-sidebar>

@@ -1,0 +1,47 @@
+<p-dialog header="User details" [(visible)]="displayDialog" [modal]="true" [closable]="true" [responsive]="true"
+  [style]="{ width: '800px', height: 'auto' }" (onHide)="handleDialogHide()">
+  <div class="grid" style="gap: 1.5rem">
+    <div class="col flex flex-column gap-2">
+      <div class="flex flex-column gap-2">
+        <label for="name">Username</label>
+        <input type="text" pInputText [(ngModel)]="newUser.userName" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="password">Password</label>
+        <input type="text" pInputText [(ngModel)]="newUser.password" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="email">Email</label>
+        <input type="text" pInputText [(ngModel)]="newUser.email" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="phoneNumber">Phone number</label>
+        <input type="text" pInputText [(ngModel)]="newUser.phoneNumber" />
+      </div>
+      <div class="flex flex-wrap gap-3 column-gap-8 justify-content-center">
+        <div class="flex align-items-center">
+          <p-checkbox value="Admin" [binary]="true" [(ngModel)]="isAdmin" inputId="role1"
+            (ngModelChange)="onRoleChange('Admin', $event)"></p-checkbox>
+          <label for="role1" class="ml-2">Admin</label>
+        </div>
+
+        <div class="flex align-items-center">
+          <p-checkbox value="User" [binary]="true" [(ngModel)]="isUser" inputId="role2"
+            (ngModelChange)="onRoleChange('User', $event)"></p-checkbox>
+          <label for="role2" class="ml-2">User</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-footer>
+    <div class="flex justify-content-end gap-2">
+      <p-button label="Save" icon="pi pi-check" (onClick)="onSaveUser()" severity="success"
+        [disabled]="!isModelStateValid()"></p-button>
+
+      <p-button label="Cancel" icon="pi pi-times" severity="secondary" (onClick)="handleDialogHide()"></p-button>
+
+      <p-button label="TEST" severity="info" (onClick)="test()"></p-button>
+    </div>
+  </p-footer>
+</p-dialog>

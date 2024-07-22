@@ -1,0 +1,102 @@
+<p-dialog
+  header="Student details"
+  [(visible)]="displayDialog"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="true"
+  [style]="{ width: '800px', height: 'auto' }"
+  (onHide)="handleDialogHide()"
+>
+  <div class="grid" style="gap: 1.5rem">
+    <div class="col flex flex-column gap-2">
+      <div class="flex flex-column gap-2">
+        <label for="name">Name</label>
+        <input type="text" pInputText [(ngModel)]="newStudent.name" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="status">Profile photo</label>
+        <div class="flex flex-row gap-2 justify-content-between">
+          <input
+            #fileInput
+            type="file"
+            id="fileUpload"
+            (change)="onFileUpload($event)"
+            accept="image/*"
+          />
+          @if(imagePreview) {
+          <div class="flex flex-column">
+            <img
+              [src]="imagePreview"
+              alt="Image Preview"
+              class="imagePreview"
+            />
+          </div>
+          }
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="teacher">Teacher</label>
+        <p-dropdown
+          [options]="teachers"
+          [(ngModel)]="newStudent.teacher"
+          [style]="{ width: '100%' }"
+          [optionLabel]="'name'"
+          placeholder="Select a teacher"
+        ></p-dropdown>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="country">Country</label>
+        <p-dropdown
+          [options]="countryNames"
+          [(ngModel)]="newStudent.country"
+          [editable]="true"
+          [style]="{ width: '100%' }"
+          placeholder="Select a country"
+        ></p-dropdown>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="contract">Contract</label>
+        <p-inputNumber
+          inputId="integeronly"
+          [(ngModel)]="newStudent.contract"
+          type="number"
+          [style]="{ width: '100%' }"
+        ></p-inputNumber>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="status">Status</label>
+        <p-dropdown
+          [options]="statuses"
+          [(ngModel)]="newStudent.status"
+          placeholder="Select a status"
+          [panelStyle]="{ maxHeight: '200px', overflow: 'auto' }"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <p-footer>
+    <div class="flex justify-content-end gap-2">
+      <p-button
+        label="Save"
+        icon="pi pi-check"
+        (onClick)="onSaveStudent()"
+        severity="success"
+        [disabled]="!isModelStateValid()"
+      ></p-button>
+
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        severity="secondary"
+        (onClick)="handleDialogHide()"
+      ></p-button>
+
+    </div>
+  </p-footer>
+</p-dialog>

@@ -1,0 +1,26 @@
+<div class="grid m-1">
+  <div class="col gap-2 flex justify-content-end flex-wrap">
+    <p-button label="Add Quiz" severity="success" icon="pi pi-plus" (onClick)="onAddQuiz()" />
+    <p-button label="Download quiz report" severity="help"  (onClick)="downloadReportFile()" />
+  </div>
+</div>
+
+<div class="flex flex-row flex-wrap justify-content-evenly">
+  @for(quiz of quizzesList; track quiz.id){
+
+  <app-quiz-card [quiz]="quiz" (editQuiz)="openEditDialog($event)" (deleteQuiz)="confirmDeletion($event)">
+  </app-quiz-card>
+  }
+</div>
+
+<app-edit-quiz-dialog (dialogHide)="dialogHided()" (saveQuiz)="handleSaveQuiz($event)" [quiz]="selectedQuiz"
+  [displayDialog]="displayDialog">
+</app-edit-quiz-dialog>
+
+<app-add-quiz-dialog [displayAddDialog]="displayAddDialog" (dialogHide)="dialogHided()"
+  (addNewQuiz)="newQuizAdded($event)">
+</app-add-quiz-dialog>
+
+<p-confirmDialog></p-confirmDialog>
+
+<p-toast></p-toast>

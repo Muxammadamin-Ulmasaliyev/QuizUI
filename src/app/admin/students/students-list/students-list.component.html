@@ -1,0 +1,27 @@
+<app-students-table
+  [students]="students"
+  [teachers]="teachers"
+  [totalRecords]="totalRecords"
+  [pageSize]="pageSize"
+  [pageNumber]="pageNumber"
+  [loading]="loading"
+  (pageChanged)="handlePageChange($event)"
+  (sortTable)="handleTableSorting($event)"
+  (dialogOpen)="handleDialogOpen($event)"
+  (deleteStudent)="handleStudentDeletion($event)"
+>
+</app-students-table>
+
+
+<app-student-dialog
+  [teachers]="teachers"
+  [newStudent]="newStudent"
+  [isEditMode]="isEditMode"
+  [displayDialog]="displayDialog"
+  (onHideDialog)="onHideDialog()"
+  (saveStudent)="upsertStudent($event)"
+>
+</app-student-dialog>
+
+<p-toast position="bottom-right"></p-toast>
+

@@ -1,0 +1,56 @@
+<p-table #table [value]="quizResults" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }"
+  [globalFilterFields]="['userName']" [lazy]="true" sortMode="single" (onLazyLoad)="onSorted($event)">
+  <ng-template pTemplate="caption">
+    <div class="grid">
+      <div class="col gap-2 flex justify-content-start flex-wrap">
+        <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clearTableFilter(table)" />
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="onSearchInput($event)" [(ngModel)]="searchValue"
+            placeholder="Search keyword" />
+
+        </span>
+        <p-dropdown [options]="quizzes" [(ngModel)]="selectedQuiz" optionLabel="title" [showClear]="true"
+          (ngModelChange)="dropdownChanged()" placeholder="Select a Quiz" />
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="user.userName">
+        Username
+        <p-sortIcon field="user.userName" />
+      </th>
+      <th pSortableColumn="quiz.title">
+        Quiz
+        <p-sortIcon field="quiz.title" />
+      </th>
+      <th pSortableColumn="totalScore">
+        Total Score
+        <p-sortIcon field="totalScore" />
+      </th>
+      <th pSortableColumn="solvedAt">
+        Solved At
+        <p-sortIcon field="solvedAt" />
+      </th>
+      <th>
+        Grade
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-quizResult>
+    <tr>
+      <td>{{ quizResult.user.userName }}</td>
+      <td>{{ quizResult.quiz.title }}</td>
+      <td>{{ quizResult.totalScore }}%</td>
+      <td>{{ quizResult.solvedAt | date : "dd/MM/yyyy" }}</td>
+      <td>
+        <p-tag [value]="getGradeValue(quizResult)" [severity]="getGradeSeverity(quizResult)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-paginator [rows]="pageSize" [totalRecords]="totalRecords" (onPageChange)="onPageChange($event)"
+  [rowsPerPageOptions]="[5, 10, 20, 30]"></p-paginator>
+<p-confirmDialog></p-confirmDialog>

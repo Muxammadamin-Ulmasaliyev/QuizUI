@@ -1,0 +1,10 @@
+<div style="text-align: center;">
+
+  <p-dropdown [options]="availableYears" [(ngModel)]="selectedYear" (onChange)="dropDownSelectionChanged()"
+    placeholder="Select a year">
+  </p-dropdown>
+</div>
+
+<div class="card">
+  <p-chart type="line" [data]="data" [options]="options" />
+</div>

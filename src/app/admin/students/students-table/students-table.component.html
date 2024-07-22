@@ -1,0 +1,122 @@
+<p-table
+  #table
+  [value]="students"
+  [(selection)]="selectedStudents"
+  [loading]="loading"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [globalFilterFields]="['name']"
+  [lazy]="true"
+  sortMode="single"
+  (onLazyLoad)="onSorted($event)"
+>
+  <ng-template pTemplate="caption">
+    <div class="grid">
+      <div class="col gap-2 flex justify-content-start flex-wrap">
+        <p-button
+          label="Clear"
+          [outlined]="true"
+          icon="pi pi-filter-slash"
+          (click)="clearTableFilter(table)"
+        />
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="searchValue"
+            (input)="table.filterGlobal(searchValue, 'contains')"
+            placeholder="Search keyword"
+          />
+        </span>
+      </div>
+      <div class="col gap-2 flex justify-content-end flex-wrap">
+        <p-button
+          [disabled]="!(selectedStudents && selectedStudents.length > 0)"
+          label="Delete students"
+          severity="danger"
+          icon="pi pi-trash"
+          (onClick)="showConfirmationDialogForDeletion()"
+        />
+        <p-button
+          label="Add Student"
+          severity="success"
+          icon="pi pi-plus"
+          (onClick)="showAddNewStudentDialog()"
+        />
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+      <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
+      <th></th>
+      <th pSortableColumn="country">Country <p-sortIcon field="country" /></th>
+      <th></th>
+      <th pSortableColumn="teacher.name">
+        Teacher<p-sortIcon field="teacher.name" />
+      </th>
+      <th pSortableColumn="date">Date<p-sortIcon field="date" /></th>
+      <th pSortableColumn="contract">
+        Contract<p-sortIcon field="contract" />
+      </th>
+      <th pSortableColumn="status">Status<p-sortIcon field="status" /></th>
+
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-student>
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="student" />
+      </td>
+      <td>{{ student.name }}</td>
+      <td>
+        <p-avatar
+          image="{{ getStudentImageUrl(student.imageUrl) }}"
+          shape="circle"
+          size="large"
+          styleClass="p-mr-2"
+        ></p-avatar>
+      </td>
+      <td>{{ student.country }}</td>
+      <td>
+        <div>
+          <img
+            alt="Country"
+            [src]="getFlagImageUrl(student.country)"
+            width="40"
+            height="35"
+          />
+        </div>
+      </td>
+      <td>{{ student.teacher.name }}</td>
+      <td>{{ student.date | date : "dd/MM/yyyy" }}</td>
+      <td>{{ student.contract | currency : "USD" : "symbol" : "1.0-0" }}</td>
+      <td>
+        <p-tag
+          [value]="getStudentStatusValue(student.status)"
+          [severity]="getStudentSeverity(student.status)"
+        />
+      </td>
+
+      <td>
+        <div>
+          <p-button
+            label="Edit"
+            severity="primary"
+            icon="pi pi pi-user-edit"
+            (onClick)="showEditStudentDialog(student)"
+          />
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-paginator
+  [rows]="pageSize"
+  [totalRecords]="totalRecords"
+  (onPageChange)="onPageChange($event)"
+  [rowsPerPageOptions]="[5, 10, 20, 30]"
+></p-paginator>
+<p-confirmDialog> </p-confirmDialog>
